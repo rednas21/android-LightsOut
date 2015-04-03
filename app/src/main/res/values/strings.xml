@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Linear Lights Out</string>
+    <string name="action_settings">Settings</string>
+
+    <!--MainActivty-->
+    <string name="main_title">Linear Lights Out</string>
+    <string name="play_start">Play with 7 buttons</string>
+    <string name="play_format">Play with %d buttons</string>
+    <string name="change_num_buttons">Change number of buttons</string>
+    <string name="about">About Linear Lights Out</string>
+    <string name="exit">Exit</string>
+
+    <!--LightsOutActivty-->
+    <string name="game_play">Make the buttons match</string>
+    <string name="game_win">You won!</string>
+    <string name="button_zero">0</string>
+    <string name="button_one">1</string>
+    <string name="button_new_game">New Game</string>
+    <string name="title_activity_lights_out">LightsOutActivity</string>
+
+    <!--AboutActivity-->
+    <string name="about_description">Clicking a button toggles the state of that button and any neighboring buttons. The goal is to make all the buttons match.</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_about_activty">AboutActivty</string>
+    <string name="title_activity_about">AboutActivity</string>
+</resources>
