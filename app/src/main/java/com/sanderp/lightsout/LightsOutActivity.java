@@ -1,7 +1,7 @@
 package com.sanderp.lightsout;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-public class LightsOutActivity extends ActionBarActivity implements View.OnClickListener {
+public class LightsOutActivity extends Activity implements View.OnClickListener {
 
     private static int NUM_BUTTONS = 7;
     private LightsOutGame mGame;
