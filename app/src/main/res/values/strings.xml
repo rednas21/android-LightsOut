@@ -20,8 +20,14 @@
 
     <!--AboutActivity-->
     <string name="about_description">Clicking a button toggles the state of that button and any neighboring buttons. The goal is to make all the buttons match.</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <!--ChangeButtonsActivity-->
+    <string name="radio_label_3">3 Buttons</string>
+    <string name="radio_label_5">5 Buttons</string>
+    <string name="radio_label_7">7 Buttons</string>
+    <string name="radio_label_9">9 Buttons</string>
+    <string name="title_activity_change_buttons">ChangeButtons</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_about_activty">AboutActivty</string>
-    <string name="title_activity_about">AboutActivity</string>
 </resources>

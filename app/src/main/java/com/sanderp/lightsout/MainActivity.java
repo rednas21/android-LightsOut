@@ -12,8 +12,10 @@ import android.widget.Button;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    private static final String LLOM = "LLOM";
-    private static int NUM_BUTTONS = 7;
+    public static final String LLOM = "LLOM";
+    public static final String KEY_NUM_BUTTONS = "KEY_NUM_BUTTONS";
+    private static final int REQUEST_CODE_CHANGE_BUTTON = 1;
+    private int mNumButtons = 7;
     private Button mPlayButton;
     private Button mChangeButton;
     private Button mAboutButton;
@@ -66,6 +68,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.change_num_buttons_button:
                 Log.d(LLOM, "Change button clicked");
+                Intent changeButtonsIntent = new Intent(this, ChangeButtons.class);
+                changeButtonsIntent.putExtra(KEY_NUM_BUTTONS, mNumButtons);
+                this.startActivityForResult(changeButtonsIntent, REQUEST_CODE_CHANGE_BUTTON);
                 break;
             case R.id.about_button:
                 Log.d(LLOM, "You clicked about");
@@ -74,6 +79,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.exit_button:
                 Log.d(LLOM, "Exit button clicked");
+                break;
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_CHANGE_BUTTON:
+                if (resultCode == Activity.RESULT_OK) {
+                    Log.d(LLOM, "Result ok!");
+
+                    mNumButtons = data.getIntExtra(KEY_NUM_BUTTONS, 7);
+                    Log.d(LLOM, "mNumButtons = " + mNumButtons);
+
+                    String s = this.getString(R.string.play_format, mNumButtons);
+                    mPlayButton.setText(s);
+                } else {
+                    Log.d(LLOM, "Result not okay. User hit back without a button");
+                }
+                break;
+            default:
+                Log.d(LLOM, "Unknown result code");
                 break;
         }
     }

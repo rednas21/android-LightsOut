@@ -29,6 +29,14 @@
             android:label="@string/about"
             android:theme="@style/AppDialog" >
         </activity>
+        <activity
+            android:name=".ChangeButtons"
+            android:label="@string/title_activity_change_buttons"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sanderp.lightsout.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
