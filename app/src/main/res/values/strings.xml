@@ -11,8 +11,12 @@
     <string name="exit">Exit</string>
 
     <!--LightsOutActivty-->
-    <string name="game_play">Make the buttons match</string>
-    <string name="game_win">You won!</string>
+    <string name="game_start">Make the buttons match</string>
+    <string name="game_one_move">1 move taken so far</string>
+    <string name="game_format">%1$d moves taken so far</string>
+    <string name="you_win">You won!</string>
+    <string name="you_won_one_move">You won in 1 move!</string>
+    <string name="you_won_format">You won in %1$d moves!</string>
     <string name="button_zero">0</string>
     <string name="button_one">1</string>
     <string name="button_new_game">New Game</string>

@@ -65,6 +65,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.play_button:
                 Log.d(LLOM, "Play button clicked");
+                Intent playIntent = new Intent(this, LightsOutActivity.class);
+                playIntent.putExtra(KEY_NUM_BUTTONS, mNumButtons);
+                startActivity(playIntent);
                 break;
             case R.id.change_num_buttons_button:
                 Log.d(LLOM, "Change button clicked");

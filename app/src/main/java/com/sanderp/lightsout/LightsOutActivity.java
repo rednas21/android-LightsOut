@@ -1,20 +1,27 @@
 package com.sanderp.lightsout;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class LightsOutActivity extends Activity implements View.OnClickListener {
 
-    private static int NUM_BUTTONS = 7;
+    private int mNumButtons;
     private LightsOutGame mGame;
     private TextView mGameStatus;
-    private Button[] mGameButtons;
+    private ArrayList<Button> mButtons;
     private Button mNewGame;
 
 
@@ -23,32 +30,35 @@ public class LightsOutActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lights_out);
 
-        // Initialize the game status text view
-        mGameStatus = (TextView) findViewById(R.id.game_status);
+        Intent data = getIntent();
+        mNumButtons = data.getIntExtra(MainActivity.KEY_NUM_BUTTONS, 7);
+        Log.d(MainActivity.LLOM, "Got " + mNumButtons + " buttons.");
 
-        // Initialize the game buttons
-        mGameButtons = new Button[NUM_BUTTONS];
+        // Initialize the buttons
+        mButtons = new ArrayList<Button>();
+        TableRow buttonRow = new TableRow(this);
 
-        mGameButtons[0] = (Button) findViewById(R.id.button0);
-        mGameButtons[1] = (Button) findViewById(R.id.button1);
-        mGameButtons[2] = (Button) findViewById(R.id.button2);
-        mGameButtons[3] = (Button) findViewById(R.id.button3);
-        mGameButtons[4] = (Button) findViewById(R.id.button4);
-        mGameButtons[5] = (Button) findViewById(R.id.button5);
-        mGameButtons[6] = (Button) findViewById(R.id.button6);
-
-        for(int button = 0; button < NUM_BUTTONS; button++) {
-            mGameButtons[button].setOnClickListener(this);
+        for (int i = 0; i < mNumButtons; i++) {
+            Button button = new Button(this);
+            button.setTag(new Integer(i));
+            mButtons.add(button);
+            buttonRow.addView(button);
+            button.setOnClickListener(this);
         }
+
+        TableLayout buttonTable = (TableLayout) findViewById(R.id.button_table);
+        buttonTable.addView(buttonRow);
+
+        // Initialize the game status text view
+        mGameStatus = (TextView) findViewById(R.id.game_state);
 
         // Initialize new game button
         mNewGame = (Button) findViewById(R.id.button_new_game);
         mNewGame.setOnClickListener(this);
 
         // Initialize the game
-        mGame = new LightsOutGame(NUM_BUTTONS);
-        mGame.newGame();
-        updateView();
+        mGame = new LightsOutGame(mNumButtons);
+        updateView(false);
     }
 
 
@@ -76,36 +86,42 @@ public class LightsOutActivity extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.button_new_game) {
-            mGame.newGame();
+        boolean isWin = false;
+        if (v.getId() == R.id.button_new_game) {
+            Log.d(MainActivity.LLOM, "New game pressed");
+            mGame = new LightsOutGame(mNumButtons);
         } else {
-            for(int button = 0; button < NUM_BUTTONS; button++) {
-                if(v.getId() == mGameButtons[button].getId()) {
-                    mGame.pressedButtonAtIndex(button);
-                    break;
-                }
-            }
+            Log.d(MainActivity.LLOM, "Button with tag " + v.getTag());
+            isWin = mGame.pressedButtonAtIndex((Integer) v.getTag());
         }
 
-        updateView();
-
-        if (mGame.gameOver()) {
-            mGameStatus.setText(R.string.game_win);
-            for(int button = 0; button < NUM_BUTTONS; button++) {
-                mGameButtons[button].setEnabled(false);
-            }
-        } else {
-            mGameStatus.setText(R.string.game_win);
-            for(int button = 0; button < NUM_BUTTONS; button++) {
-                mGameButtons[button].setEnabled(true);
-            }
-        }
+        updateView(isWin);
     }
 
-    private void updateView() {
-        for(int button = 0; button < NUM_BUTTONS; button++) {
-            String stringValue = "" + mGame.getButtonValue(button);
-            mGameButtons[button].setText(stringValue);
+    private void updateView(boolean isWin) {
+        for(int button = 0; button < mNumButtons; button++) {
+            mButtons.get(button).setText("" + mGame.getValueAtIndex(button));
+            mButtons.get(button).setEnabled(!isWin);
         }
+
+        Resources r = this.getResources();
+        String newGameString;
+        int nPresses = mGame.getNumPresses();
+        if (isWin) {
+            if (nPresses == 1) {
+                newGameString = r.getString(R.string.you_won_one_move);
+            } else {
+                newGameString = r.getString(R.string.you_won_format, nPresses);
+            }
+        } else {
+            if (nPresses == 0) {
+                newGameString = r.getString(R.string.game_start);
+            } else if (nPresses == 1) {
+                newGameString = r.getString(R.string.game_one_move);
+            } else {
+                newGameString = r.getString(R.string.game_format, nPresses);
+            }
+        }
+        mGameStatus.setText(newGameString);
     }
 }

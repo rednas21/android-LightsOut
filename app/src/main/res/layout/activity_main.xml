@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/main_title"
-        android:textColor="@color/text"
+        android:textColor="@color/text_color"
         android:textSize="30sp" />
 
     <Button
