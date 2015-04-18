@@ -2,6 +2,7 @@ package com.sanderp.lightsout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +15,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public static final String LLOM = "LLOM";
     public static final String KEY_NUM_BUTTONS = "KEY_NUM_BUTTONS";
+    private static final String PREFS = "PREFS";
     private static final int REQUEST_CODE_CHANGE_BUTTON = 1;
     private int mNumButtons = 7;
     private Button mPlayButton;
@@ -27,6 +29,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences prefs = getSharedPreferences(PREFS, Activity.MODE_PRIVATE);
+        mNumButtons = prefs.getInt(KEY_NUM_BUTTONS, 7);
+
         mPlayButton = (Button) findViewById(R.id.play_button);
         mPlayButton.setOnClickListener(this);
         mChangeButton = (Button) findViewById(R.id.change_num_buttons_button);
@@ -37,6 +42,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mExitButton.setOnClickListener(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences prefs = getSharedPreferences(PREFS, Activity.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(KEY_NUM_BUTTONS, mNumButtons);
+        editor.apply();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
