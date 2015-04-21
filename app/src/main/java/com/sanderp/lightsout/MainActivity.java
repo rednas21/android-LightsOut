@@ -40,6 +40,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mAboutButton.setOnClickListener(this);
         mExitButton = (Button) findViewById(R.id.exit_button);
         mExitButton.setOnClickListener(this);
+
+        String s = this.getString(R.string.play_format, mNumButtons);
+        mPlayButton.setText(s);
     }
 
     @Override
